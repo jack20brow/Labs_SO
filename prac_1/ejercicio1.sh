@@ -25,14 +25,36 @@
 
 
 # comprobar numero de argumentos
-if [$# = 4]; then
+if [ $# = 4 ]; then
+
+
 	# asignar variables
+	# primero comprobamos que el archivo csv exista
+	archivo="$1"
+	if [ ! -e "$archivo" ]; then
+		echo "Error, el archivo pasado por parámetro($archivo) no existe"
+		exit 1
+	fi
 
-	# comprobar fichero
+	#cogemos el resto de parametros y asignamos a variables
+	pais1="$2"
+	pais2="$3"
+	año="$4"
 
-	# analizar año pasado por arg.
+	# identificar los dos paises con sus ID y su porcentaje de pobreza
+	
 
-	# identificar los dos paises con sus ID
+
+
+
+
+	# asignar variables
+	# primero comprobamos que el archivo csv exista
+	archivo="$1"
+	if [ ! -e "$archivo" ]; then
+		echo "Error, el archivo pasado por parámetro($archivo) no existe"
+		exit 1
+	fi
 
 	# comparar indices de pobreza
 
