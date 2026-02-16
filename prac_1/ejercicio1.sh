@@ -42,19 +42,6 @@ if [ $# = 4 ]; then
 	año="$4"
 
 	# identificar los dos paises con sus ID y su porcentaje de pobreza
-	
-
-
-
-
-
-	# asignar variables
-	# primero comprobamos que el archivo csv exista
-	archivo="$1"
-	if [ ! -e "$archivo" ]; then
-		echo "Error, el archivo pasado por parámetro($archivo) no existe"
-		exit 1
-	fi
 
 	# comparar indices de pobreza
 
