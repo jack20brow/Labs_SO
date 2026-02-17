@@ -37,13 +37,30 @@ if [ $# = 4 ]; then
 	fi
 
 	#cogemos el resto de parametros y asignamos a variables
-	pais1="$2"
-	pais2="$3"
-	año="$4"
+	id1="$2"
+	id2="$3"
+	year="$4"
 
-	# identificar los dos paises con sus ID y su porcentaje de pobreza
+	# identificar los dos paises
+	# usamos grep para identificar las líneas del archivo csv que estaremos tratando
+	pais1=$(grep -i ",$id1,$year" "$archivo")
+	pais2=$(grep -i ",$id2,$year" "$archivo")
+
+
+	# comprovamos si existen datos según los parámetros, de lo contrario lanzamos excepcion y detenemos ejecución.
+	if [-z "$linea1" ]; then
+		echo "Error: no hay dato para CODE=$id1 en YEAR=$year"
+		exit 1
+	fi
+
+	if [ -z "$linea2" ]; then
+		echo "Error: no hay dato para CODE=$id2 en YEAR=$year"
+		exit 1
+	fi
 
 	# comparar indices de pobreza
+
+	
 
 	# imprimir que país tiene mayor pobreza
 
