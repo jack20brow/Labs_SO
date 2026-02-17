@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# COMPORTAMIENTO DESEADO #########################################
 
 # ./ejercicio1.sh
 # Se requiere el siguiente formato:
@@ -22,7 +23,9 @@
 # Diferencia (ESP - ESP): 0.0 puntos porcentuales
 # País con mayor pobreza en 2019: EMPATE
 
+##################################################################
 
+# CÓDIGO
 
 # comprobar numero de argumentos
 if [ $# = 4 ]; then
@@ -60,7 +63,7 @@ if [ $# = 4 ]; then
 
 	# comparar indices de pobreza
 
-	
+
 
 	# imprimir que país tiene mayor pobreza
 
