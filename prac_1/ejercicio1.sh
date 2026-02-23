@@ -28,7 +28,7 @@
 # CÓDIGO
 
 # comprobar numero de argumentos
-if [ $# = 4 ]; then
+if [ $# -eq 4 ]; then
 
 
 	# asignar variables
@@ -40,36 +40,65 @@ if [ $# = 4 ]; then
 	fi
 
 	#cogemos el resto de parametros y asignamos a variables
+	csv="$1"
 	id1="$2"
 	id2="$3"
 	year="$4"
 
 	# identificar los dos paises
 	# usamos grep para identificar las líneas del archivo csv que estaremos tratando
-	pais1=$(grep -i ",$id1,$year" "$archivo")
-	pais2=$(grep -i ",$id2,$year" "$archivo")
+	#pais1=$(grep -i ",$id1,$year" "$archivo")
+	#pais2=$(grep -i ",$id2,$year" "$archivo")
 
+	# así podemos tener en una variable los tres valores que nos interesan.
+	# utilizamos el ofs para definir un separador entre valores, cada vez que ponemos una coma
+	# en el print final, inyectamos el OFS, que nos ayudará a extraer los datos en el futuro.
+	pais1=$(awk -F',' -v id="$id1" -v year="$year" 'BEGIN {OFS="|"} $2 == id && $3 == year {print $1, $4}' "$csv")
+	pais2=$(awk -F',' -v id="$id2" -v year="$year" 'BEGIN {OFS="|"} $2 == id && $3 == year {print $1, $4}' "$csv")
+	
+	# ahora mismo en las variables tendriamos el nombre completo del pais y el indice de pobreza
+	# separados por el ofs.
 
-	# comprovamos si existen datos según los parámetros, de lo contrario lanzamos excepcion y detenemos ejecución.
-	if [-z "$linea1" ]; then
+	#comprovamos si existen datos según los parámetros, de lo contrario lanzamos excepcion y detenemos ejecución.
+	if [ -z "$pais1" ]; then
 		echo "Error: no hay dato para CODE=$id1 en YEAR=$year"
 		exit 1
 	fi
 
-	if [ -z "$linea2" ]; then
+	if [ -z "$pais2" ]; then
 		echo "Error: no hay dato para CODE=$id2 en YEAR=$year"
 		exit 1
 	fi
 
 	# comparar indices de pobreza
+	# extraemos los valores guardados en dos variables distintas
+
+	IFS='|' read -r nombre1 indice1 <<< "$pais1"
+	IFS='|' read -r nombre2 indice2 <<< "$pais2"
 
 
+	echo "Año: $year"
+	echo "COD1: $id1 ($nombre1) Pobreza: $indice1 %"
+	echo "COD2: $id2 ($nombre2) Pobreza: $indice2 %"
 
-	# imprimir que país tiene mayor pobreza
+	
+	if [ "$(echo "$indice1 > $indice2" | bc)" -eq 1 ]; then
 
+		dif=$(echo "$indice1 - $indice2" | bc)
 
+		echo "Diferencia ($id1 - $id2): $dif puntos porcentuales"
+    	echo "País con mayor pobreza en $year: $id1"
+    elif [ "$(echo "$indice2 > $indice1" | bc)" -eq 1 ]; then
 
+    	dif=$(echo "$indice2 - $indice1" | bc)
 
+    	echo "Diferencia ($id2 - $id1): $dif puntos porcentuales"
+    	echo "País con mayor pobreza en $year: $id2"
+    else
+
+    	echo "Diferencia ($id1 - $id2) : 0.0 puntos porcentuales"
+    	echo "País con mayor pobreza en $year: EMPATE"
+    fi
 
 
 else
