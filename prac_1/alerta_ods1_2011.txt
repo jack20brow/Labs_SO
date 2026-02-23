@@ -1,0 +1,7 @@
+Code;Entity;PovertyRate;Electricity
+AFG;Afghanistan;38.3;43.2
+BEN;Benin;36.2;36.9
+COG;Congo;40.9;40.8
+MLI;Mali;45.4;28.8
+SLE;Sierra Leone;62.4;14.2
+TGO;Togo;58.7;39.7
