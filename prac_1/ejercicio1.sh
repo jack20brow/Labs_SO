@@ -53,8 +53,8 @@ if [ $# -eq 4 ]; then
 	# así podemos tener en una variable los tres valores que nos interesan.
 	# utilizamos el ofs para definir un separador entre valores, cada vez que ponemos una coma
 	# en el print final, inyectamos el OFS, que nos ayudará a extraer los datos en el futuro.
-	pais1=$(awk -F',' -v id="$id1" -v year="$year" 'BEGIN {OFS="|"} $2 == id && $3 == year {print $1, $4}' "$csv")
-	pais2=$(awk -F',' -v id="$id2" -v year="$year" 'BEGIN {OFS="|"} $2 == id && $3 == year {print $1, $4}' "$csv")
+	pais1=$(awk -F',' -v id="$id1" -v year="$year" 'BEGIN {OFS="|"} $2 == id && $3 == year {print $1, $4; exit}' "$csv")
+	pais2=$(awk -F',' -v id="$id2" -v year="$year" 'BEGIN {OFS="|"} $2 == id && $3 == year {print $1, $4; exit}' "$csv")
 	
 	# ahora mismo en las variables tendriamos el nombre completo del pais y el indice de pobreza
 	# separados por el ofs.
