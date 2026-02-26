@@ -2,7 +2,7 @@
 
 #Validación de argumentos (Fail-Fast)
 if [ $# -ne 1 ]; then
-    echo "Uso: $0 <alerta_txt>"
+    echo "Se requiere el formato: $0 <alerta_txt>"
     exit 1
 fi
 
@@ -45,7 +45,7 @@ echo "Países en alerta: $num_paises" >> resumen_alerta.txt
 echo "Mayor pobreza: $mayor_pobreza" >> resumen_alerta.txt
 echo "Menor acceso electricidad: $menor_elec" >> resumen_alerta.txt
 
-#Salida por pantalla (idéntica al contenido del resumen según el PDF)
+#Salida por pantalla 
 echo "Fichero: $alerta_txt"
 echo "Países en alerta: $num_paises"
 echo "Mayor pobreza: $mayor_pobreza"
