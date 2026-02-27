@@ -29,7 +29,8 @@ if [ $# -ne  5 ];then
 	exit 1
 fi
 
-
+# Cuando nos hemos asegurado que tenemos el num de argumentos deseados comprobamos
+# que los csv no esten vacios, asignandolos primero en una variable.
 estad_pobreza=$1
 estad_servicios=$2
 
@@ -41,16 +42,22 @@ elif [ ! -s "$estad_servicios" ];then
 	exit 1
 fi
 
+
 # Lógica
-
-
+# Como ya sabemos que la ejecución se dará correctamente, aunque pueda estar vacía, añadimos la primera linea
+# de nuestro archivo
 
 echo "Code;Entity;PovertyRate;Electricity" > "alerta_ods1_${3}.txt"
 
+# Aíslamiento de registros por año, umbral de pobreza y límite de electricidad
+# Ordenación en memoria por código de país
+# Combinación por código de país de los dos registros
+# Sobrescritura del resultado en el archivo .txt
 join -t ';' -1 1 -2 1 \
 	<(awk -F ',' -v pov_min="$4" -v year="$3" 'BEGIN {OFS=";"} NR > 1 && $4 >= pov_min && $3 == year {print $2, $1, $4}' "$estad_pobreza" | sort -t ';' -k1,1)\
 	<(awk -F ',' -v elec_max="$5" -v year="$3" 'BEGIN {OFS=";"} NR > 1 && $4 <= elec_max && $3 == year {print $2, $4}' "$estad_servicios" | sort -t ';' -k1,1) >> "alerta_ods1_${3}.txt"
 
+# Finalmente acabamos de añadir las lineas que piden al archivo y cerramos el programa con un exit 0.
 echo "Generado: alerta_ods1_${3}.txt"
 
 num_lineas=$(wc -l < "alerta_ods1_${3}.txt")
