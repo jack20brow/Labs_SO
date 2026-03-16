@@ -35,7 +35,9 @@ umbral=$3
 # Hacemos el awk, para el filtrado hacemos un ($4+0), ya que al ser decimal lo detecta como
 # una cadena y no como un numero, y incumple la condicon, al sumarle cero, lo obligamos a ser
 # considerado como un numero.
-awk -F ',' -v year="$year" -v umbral="$umbral" 'NR == 1 || $3==year && $4 >=umbral | bc -l {print $0}' "$csv"  > "filtrado_${year}.csv"
+awk -F ',' -v year="$year" -v umbral="$umbral" 'NR == 1 || $3==year && ($4+0) >=umbral {print $0}' "$csv"  > "filtrado_${year}.csv"
 
 num_lineas=$(wc -l < "filtrado_${year}.csv")
 echo "Filas (sin cabecera) en filtrado_${year}.csv: $((num_lineas - 1))"
+
+LC_NUMERIC=C
