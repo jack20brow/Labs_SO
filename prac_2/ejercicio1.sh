@@ -45,3 +45,5 @@ echo "$(head -n 3 "$archivo")"
 echo "Ultimas tres lineas"
 echo "$(tail -n 3 "$archivo")"
 
+exit 0
+
